@@ -57,6 +57,21 @@ def add_product():
     return product_schema.jsonify(new_product)
 
 
+# Get All Products
+@app.route("/product", methods=["GET"])
+def get_products():
+    all_products = Product.query.all()
+    return jsonify(products_schema.dump(all_products))
+
+
+# Get Single Product
+# Get All Products
+@app.route("/product/<int:id>", methods=["GET"])
+def get_product(id):
+    product = Product.query.get_or_404(id)
+    return product_schema.jsonify(product)
+
+
 # Run Server
 if __name__ == "__main__":
     app.run(debug=True)
