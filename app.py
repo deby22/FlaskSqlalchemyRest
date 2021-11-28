@@ -65,10 +65,25 @@ def get_products():
 
 
 # Get Single Product
-# Get All Products
 @app.route("/product/<int:id>", methods=["GET"])
 def get_product(id):
     product = Product.query.get_or_404(id)
+    return product_schema.jsonify(product)
+
+
+# Update Single Product
+@app.route("/product/<int:id>", methods=["PUT"])
+def update_product(id):
+    product = Product.query.get_or_404(id)
+    name = request.json["name"]
+    description = request.json["description"]
+    price = request.json["price"]
+    qty = request.json["qty"]
+    product.name = name
+    product.description = description
+    product.price = price
+    product.qty = qty
+    db.session.commit()
     return product_schema.jsonify(product)
 
 
