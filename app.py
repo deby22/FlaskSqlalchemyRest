@@ -44,6 +44,19 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
 
+# Create a Product
+@app.route("/product", methods=["POST"])
+def add_product():
+    name = request.json["name"]
+    description = request.json["description"]
+    price = request.json["price"]
+    qty = request.json["qty"]
+    new_product = Product(name=name, price=price, description=description, qty=qty)
+    db.session.add(new_product)
+    db.session.commit()
+    return product_schema.jsonify(new_product)
+
+
 # Run Server
 if __name__ == "__main__":
     app.run(debug=True)
